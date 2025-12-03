@@ -1,0 +1,15 @@
+C:\Users\kwon-daegun\Documents\C-Sharp\Variables\Variables\bin\Debug\net9.0\Variables.exe
+C:\Users\kwon-daegun\Documents\C-Sharp\Variables\Variables\bin\Debug\net9.0\Variables.deps.json
+C:\Users\kwon-daegun\Documents\C-Sharp\Variables\Variables\bin\Debug\net9.0\Variables.runtimeconfig.json
+C:\Users\kwon-daegun\Documents\C-Sharp\Variables\Variables\bin\Debug\net9.0\Variables.dll
+C:\Users\kwon-daegun\Documents\C-Sharp\Variables\Variables\bin\Debug\net9.0\Variables.pdb
+C:\Users\kwon-daegun\Documents\C-Sharp\Variables\Variables\obj\Debug\net9.0\Variables.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kwon-daegun\Documents\C-Sharp\Variables\Variables\obj\Debug\net9.0\Variables.AssemblyInfoInputs.cache
+C:\Users\kwon-daegun\Documents\C-Sharp\Variables\Variables\obj\Debug\net9.0\Variables.AssemblyInfo.cs
+C:\Users\kwon-daegun\Documents\C-Sharp\Variables\Variables\obj\Debug\net9.0\Variables.csproj.CoreCompileInputs.cache
+C:\Users\kwon-daegun\Documents\C-Sharp\Variables\Variables\obj\Debug\net9.0\Variables.sourcelink.json
+C:\Users\kwon-daegun\Documents\C-Sharp\Variables\Variables\obj\Debug\net9.0\Variables.dll
+C:\Users\kwon-daegun\Documents\C-Sharp\Variables\Variables\obj\Debug\net9.0\refint\Variables.dll
+C:\Users\kwon-daegun\Documents\C-Sharp\Variables\Variables\obj\Debug\net9.0\Variables.pdb
+C:\Users\kwon-daegun\Documents\C-Sharp\Variables\Variables\obj\Debug\net9.0\Variables.genruntimeconfig.cache
+C:\Users\kwon-daegun\Documents\C-Sharp\Variables\Variables\obj\Debug\net9.0\ref\Variables.dll
