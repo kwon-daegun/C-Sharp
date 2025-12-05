@@ -1,33 +1,97 @@
-﻿var buyer = new BuyerProfile(Savings: 300, CostOfBicycle: 1000, MaxLoanAmount: 100, CanGetLoan: true);
+﻿using PatternMatching;
 
-string message = buyer switch
+decimal savings = AskDecimal("How much cash do you have?");
+decimal income = AskDecimal("What's your annual income?");
+decimal cost = AskDecimal("How much does the bike cost?");
+int? score = AskNullableInt("What's your credit score? (Press \"ENTER\" if you don't know)");
+
+var userProfile = new UserFinancials(savings, income, score, cost);
+
+decimal maxLoan = LoanSystem.CalculateMaxLoan(userProfile);
+decimal totalPurchasingPower = userProfile.Savings + maxLoan;
+
+// --- HELPER METHODS ---
+static string UserInput(string prompt)
 {
-    // Case 1:
-    // Deconstruction of Variables
-    { Savings: var s, CostOfBicycle: var c } when s >= c
-        => "I have enough money to buy the bicycle.",
+    Console.WriteLine(prompt);
+    return Console.ReadLine();
+}
 
-    // Case 2:
-    var b when b.TotalAvailable >= b.CostOfBicycle
-        => "I need a loan, but I can buy the bicycle!",
+static decimal AskDecimal(string prompt)
+{
+    while (true)
+    {
+        string input = UserInput(prompt);
 
-    // Case 3:
-    var b when b.TotalAvailable >= (b.CostOfBicycle * 0.9m)
-        => "Close! I have over 90% of the money needed.",
+        if (decimal.TryParse(input, out decimal result))
+        {
+            return result;
+        }
+        
+        Console.WriteLine("Invalid number. Please try again.");
+    }
+}
 
-    // Case 4:
-    var b when b.TotalAvailable > (b.CostOfBicycle / 2)
-        => "I have over half the money needed.",
+static int? AskNullableInt(string prompt)
+{
+    string input = UserInput(prompt);
 
-    // Default:
-    _ => "I do not have enough money to buy the bicycle."
+    if (string.IsNullOrWhiteSpace(input))
+    {
+        return null;
+    }
+
+    if (int.TryParse(input, out int result))
+    {
+        return result;
+    }
+
+    Console.WriteLine("Invalid input, treating as Unknown.");
+    return null;
+}
+
+string resultMessage = totalPurchasingPower switch
+{
+    var t when userProfile.Savings >= userProfile.BikeCost
+    => "APPROVED: You can pay with cash.",
+
+    var t when t >= userProfile.BikeCost
+    => $"APPROVED: You need a loan of {userProfile.BikeCost - userProfile.Savings:C}, and the Bank approved it.",
+
+    _ => $"DENIED: Even with a loan of {maxLoan:C}, you cannot afford this."
 };
 
-Console.WriteLine(message);
+Console.WriteLine();
+Console.WriteLine($"--- BANK SYSTEM REPORT ---");
+Console.WriteLine($"Credit Score: {userProfile.CreditScore?.ToString() ?? "Unknown"}");
+Console.WriteLine($"Max Loan Offered: {maxLoan:C}");
+Console.WriteLine($"Decision: {resultMessage}");
 
-// Encapsulation using record
-public record BuyerProfile(decimal Savings, decimal CostOfBicycle, decimal MaxLoanAmount, bool CanGetLoan)
+namespace PatternMatching
 {
-    // If we can't get a loan, the loan amount is effectively 0.
-    public decimal TotalAvailable => Savings + (CanGetLoan ? MaxLoanAmount : 0);
+    public record struct UserFinancials(
+    decimal Savings,
+    decimal AnnualIncome,
+    int? CreditScore,
+    decimal BikeCost
+    );
+
+    public static class LoanSystem
+    {
+        public static decimal CalculateMaxLoan(UserFinancials user)
+        {
+            return user.CreditScore switch
+            {
+                < 600 => 0,
+                >= 700 => user.AnnualIncome * 0.5m,
+                >= 600 => user.AnnualIncome * 0.2m,
+                // Rule: If user don't know credit score, we assume High Risk. 
+                // We give a tiny loan (5% of income) just to be safe.
+                null => user.AnnualIncome * 0.05m
+            };
+        }
+
+        public static bool IsEligibleForLoan(UserFinancials user)
+            => CalculateMaxLoan(user) > 0;
+    };
 }
